@@ -41,7 +41,6 @@ function SearchResults() {
     if (p.includes('shopee')) return 'bg-orange-100 text-orange-700';
     if (p.includes('lazada')) return 'bg-blue-100 text-blue-700';
     if (p.includes('tiktok')) return 'bg-black text-white';
-    if (p.includes('blibli')) return 'bg-sky-500 text-white';
     return 'bg-slate-100 text-slate-700';
   };
 
@@ -91,7 +90,7 @@ function SearchResults() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-800 mb-2">Mencari Harga Terbaik...</h3>
-              <p className="text-slate-500">Menganalisis Tokopedia, Shopee, Lazada, TikTok & Blibli secara *real-time*.</p>
+              <p className="text-slate-500">Menganalisis Tokopedia, Shopee, Lazada & TikTok secara *real-time*.</p>
             </div>
           </div>
         )}
