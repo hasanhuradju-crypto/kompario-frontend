@@ -41,8 +41,8 @@ export default function Home() {
     // Generate simulated competitor prices based on the real price
     const basePrice = item.price;
     const p1 = item.platform;
-    const p2 = p1 === 'Tokopedia' ? 'Shopee' : 'Tokopedia';
-    const p3 = p1 === 'Lazada' ? 'Shopee' : 'Lazada';
+    const p2 = (p1 === 'Tokopedia' ? 'Shopee' : 'Tokopedia') as string;
+    const p3 = (p1 === 'Lazada' ? 'Shopee' : 'Lazada') as string;
 
     const p1Color = p1 === 'Tokopedia' ? 'text-green-600' : p1 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
     const p1Bg = p1 === 'Tokopedia' ? 'bg-green-50' : p1 === 'Shopee' ? 'bg-orange-50' : 'bg-blue-50';
