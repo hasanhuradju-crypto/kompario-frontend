@@ -21,9 +21,9 @@ export default function Navbar() {
       <nav className={`mx-auto max-w-7xl transition-all duration-500 rounded-full flex items-center justify-between px-6 py-3 ${isScrolled ? 'glass shadow-lg scale-[0.98]' : 'bg-transparent'}`}>
         
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-          <div className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg rotate-3 hover:rotate-0 transition-transform">
-            K
+        <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <div className="w-10 h-10 relative overflow-hidden rounded-xl shadow-lg group-hover:scale-105 transition-transform bg-white">
+            <img src="/logo.png" alt="Kompario Logo" className="w-full h-full object-contain p-1" />
           </div>
           <div className="text-2xl font-black text-slate-800 tracking-tight hidden sm:block">
             Kompario<span className="text-blue-600">.ID</span>

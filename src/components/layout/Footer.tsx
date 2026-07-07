@@ -14,11 +14,11 @@ export default function Footer() {
           
           {/* Brand Col */}
           <div className="lg:col-span-4">
-            <div className="text-3xl font-black text-white mb-4 tracking-tight flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                <ShieldCheck size={18} className="text-white" />
+            <div className="text-3xl font-black text-white mb-4 tracking-tight flex items-center gap-3">
+              <div className="w-9 h-9 relative overflow-hidden rounded-lg shadow-lg bg-white">
+                <img src="/logo.png" alt="Kompario Logo" className="w-full h-full object-contain p-0.5" />
               </div>
-              Kompario<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">.ID</span>
+              <div>Kompario<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">.ID</span></div>
             </div>
             <p className="text-sm leading-relaxed text-slate-300 mb-6 font-medium">
               Mesin pencari harga independen pertama di Indonesia. Bandingkan jutaan produk dari Tokopedia, Shopee, Lazada & TikTok Shop dalam satu layar.
