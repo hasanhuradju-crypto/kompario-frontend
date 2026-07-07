@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <h4 className="text-sm font-bold text-white uppercase tracking-widest mb-5">Perusahaan</h4>
             <div className="flex flex-col gap-3">
-              <Link href="/tentang" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Tentang Kami</Link>
+              <Link href="/about" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Tentang Kami</Link>
               <Link href="/blog" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Blog & Edukasi</Link>
               <Link href="/komunitas" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Forum Komunitas</Link>
               <Link href="/kontak" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Hubungi Kami</Link>
@@ -85,7 +85,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-4">
             <Link href="/admin" className="text-purple-400 hover:text-purple-300 font-bold transition-colors">Admin Panel</Link>
-            <span className="hover:text-white cursor-pointer transition-colors">Syarat & Ketentuan</span>
+            <Link href="/terms" className="hover:text-white cursor-pointer transition-colors">Syarat & Ketentuan</Link>
             <span className="hover:text-white cursor-pointer transition-colors">Sitemap</span>
           </div>
         </div>
