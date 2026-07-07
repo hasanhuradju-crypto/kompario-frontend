@@ -36,6 +36,33 @@ export default function Home() {
   // Sort by sold for Trending section
   const trendingItems = [...liveData].sort((a, b) => b.sold - a.sold).slice(0, 6);
 
+  // Use items for Live Comparison (take 2 items from the end or just slice 12-14)
+  const comparisonItems = liveData.slice(12, 14).map(item => {
+    // Generate simulated competitor prices based on the real price
+    const basePrice = item.price;
+    const p1 = item.platform;
+    const p2 = p1 === 'Tokopedia' ? 'Shopee' : 'Tokopedia';
+    const p3 = p1 === 'Lazada' ? 'Shopee' : 'Lazada';
+
+    const p1Color = p1 === 'Tokopedia' ? 'text-green-600' : p1 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
+    const p1Bg = p1 === 'Tokopedia' ? 'bg-green-50' : p1 === 'Shopee' ? 'bg-orange-50' : 'bg-blue-50';
+    const p1Border = p1 === 'Tokopedia' ? 'border-green-200' : p1 === 'Shopee' ? 'border-orange-200' : 'border-blue-200';
+
+    const p2Color = p2 === 'Tokopedia' ? 'text-green-600' : p2 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
+    const p3Color = p3 === 'Tokopedia' ? 'text-green-600' : p3 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
+
+    return {
+      name: item.name,
+      img: item.image_url,
+      lowest: basePrice.toLocaleString('id-ID'),
+      prices: [
+        { p: p1, price: basePrice.toLocaleString('id-ID'), color: p1Color, bg: p1Bg, border: p1Border, best: true },
+        { p: p2, price: Math.round(basePrice * 1.05).toLocaleString('id-ID'), color: p2Color, bg: "bg-white", border: "border-slate-100" },
+        { p: p3, price: Math.round(basePrice * 1.08).toLocaleString('id-ID'), color: p3Color, bg: "bg-white", border: "border-slate-100" }
+      ]
+    };
+  });
+
   return (
     <div className="relative min-h-screen pt-32 pb-20 overflow-hidden">
       
@@ -254,25 +281,20 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {[
-              { name: "Samsung Galaxy S24 Ultra 12/256GB", img: "Smartphone", lowest: "18.500.000", prices: [
-                { p: "Tokopedia", price: "18.500.000", color: "text-green-600", bg: "bg-green-50", border: "border-green-200", best: true },
-                { p: "Shopee", price: "18.750.000", color: "text-orange-600", bg: "bg-white", border: "border-slate-100" },
-                { p: "Lazada", price: "18.899.000", color: "text-blue-700", bg: "bg-white", border: "border-slate-100" }
-              ]},
-              { name: "Sony PlayStation 5 Disc Edition", img: "Console", lowest: "7.850.000", prices: [
-                { p: "Shopee", price: "7.850.000", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200", best: true },
-                { p: "Lazada", price: "7.999.000", color: "text-blue-700", bg: "bg-white", border: "border-slate-100" },
-                { p: "Tokopedia", price: "8.100.000", color: "text-green-600", bg: "bg-white", border: "border-slate-100" }
-              ]}
-            ].map((prod, i) => (
+            {isLoading ? (
+               // Loading Skeleton
+               [1, 2].map((item) => (
+                 <div key={item} className="h-[180px] glass bg-slate-200/50 animate-pulse rounded-3xl"></div>
+               ))
+            ) : comparisonItems.length > 0 ? (
+              comparisonItems.map((prod, i) => (
               <div key={i} className="glass bg-white/50 rounded-3xl p-5 border border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300">
                 <div className="flex flex-col sm:flex-row gap-5">
                   {/* Product Image */}
                   <div className="w-full sm:w-32 h-32 bg-slate-100 rounded-2xl flex items-center justify-center flex-shrink-0 relative overflow-hidden">
-                    <img src={prod.img === "Smartphone" ? "https://images.unsplash.com/photo-1610945265064-3234eb3bf363?auto=format&fit=crop&q=80&w=200" : "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&q=80&w=200"} alt={prod.name} className="w-full h-full object-cover" />
+                    <img src={prod.img} alt={prod.name} className="w-full h-full object-cover" />
                     <div className="absolute -bottom-2 -right-2 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg">
-                      50+ Terjual
+                      LIVE
                     </div>
                   </div>
                   
@@ -296,7 +318,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            ))}
+              ))
+            ) : (
+              <div className="col-span-full text-center text-slate-500 text-sm py-8">Tidak ada data perbandingan.</div>
+            )}
           </div>
         </div>
 
