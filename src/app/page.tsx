@@ -63,6 +63,10 @@ export default function Home() {
     };
   });
 
+  const heroItem = liveData.length > 0 ? liveData[0] : null;
+  const heroPrice = heroItem ? heroItem.price : 0;
+  const heroDiscount = heroItem && heroItem.original_price > heroItem.price ? Math.round((1 - (heroItem.price / heroItem.original_price)) * 100) : 15;
+
   return (
     <div className="relative min-h-screen pt-32 pb-20 overflow-hidden">
       
@@ -124,50 +128,57 @@ export default function Home() {
 
           {/* Right Floating Product Card */}
           <div className="flex-1 w-full max-w-md relative z-10">
-            {/* The Glass Card */}
-            <div className="glass rounded-[2rem] p-6 shadow-2xl relative transform hover:-translate-y-2 transition-transform duration-500 border border-white/60">
-              
-              <div className="absolute -top-6 -right-6 bg-gradient-to-br from-rose-400 to-red-500 text-white font-black text-xl px-5 py-5 rounded-full shadow-lg transform rotate-12">
-                -35%
-              </div>
-              
-              <div className="bg-slate-100 rounded-3xl aspect-[4/3] mb-6 flex items-center justify-center relative overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80&w=400" alt="Headphone" className="w-full h-full object-cover" />
-                {/* Simulated Chart overlay */}
-                <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white/80 to-transparent flex items-end px-4 pb-2">
-                  <svg className="w-full h-12 text-blue-500 opacity-50" viewBox="0 0 100 30" preserveAspectRatio="none">
-                    <path d="M0 30 L10 20 L20 25 L30 10 L40 15 L50 5 L60 20 L70 15 L80 5 L90 10 L100 0" fill="none" stroke="currentColor" strokeWidth="2" />
-                  </svg>
+            {isLoading || !heroItem ? (
+              <div className="glass rounded-[2rem] p-6 h-[400px] animate-pulse bg-slate-200/50 relative border border-white/60"></div>
+            ) : (
+              <a href={heroItem.url} target="_blank" rel="noopener noreferrer" className="block glass rounded-[2rem] p-6 shadow-2xl relative transform hover:-translate-y-2 transition-transform duration-500 border border-white/60">
+                
+                {heroDiscount > 0 && (
+                  <div className="absolute -top-6 -right-6 bg-gradient-to-br from-rose-400 to-red-500 text-white font-black text-xl px-5 py-5 rounded-full shadow-lg transform rotate-12 z-20">
+                    -{heroDiscount}%
+                  </div>
+                )}
+                
+                <div className="bg-slate-100 rounded-3xl aspect-[4/3] mb-6 flex items-center justify-center relative overflow-hidden">
+                  <img src={heroItem.image_url} alt={heroItem.name} className="w-full h-full object-cover" />
+                  {/* Simulated Chart overlay */}
+                  <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white/80 to-transparent flex items-end px-4 pb-2">
+                    <svg className="w-full h-12 text-blue-500 opacity-50" viewBox="0 0 100 30" preserveAspectRatio="none">
+                      <path d="M0 30 L10 20 L20 25 L30 10 L40 15 L50 5 L60 20 L70 15 L80 5 L90 10 L100 0" fill="none" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="text-xl font-black text-slate-800 leading-tight">Sony WH-1000XM5<br/><span className="text-sm font-semibold text-slate-500">Wireless Noise Cancelling</span></h3>
-                <div className="flex items-center gap-1 bg-white/60 px-2 py-1 rounded-md text-sm font-bold text-slate-700">
-                  <Star size={14} className="text-yellow-500 fill-yellow-500" /> 4.9
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-black text-slate-800 leading-tight line-clamp-2 pr-2">{heroItem.name}</h3>
+                  <div className="flex items-center gap-1 bg-white/60 px-2 py-1 rounded-md text-sm font-bold text-slate-700 flex-shrink-0">
+                    <Star size={14} className="text-yellow-500 fill-yellow-500" /> {(heroItem.rating || 4.8).toFixed(1)}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200/50">
-                <div>
-                  <div className="text-sm font-medium text-slate-500">Harga Terendah</div>
-                  <div className="text-2xl font-black text-blue-600">Rp 4.999.000</div>
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200/50">
+                  <div>
+                    <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                      Harga Termurah <span className={`text-[9px] text-white px-1.5 py-0.5 rounded font-bold ${heroItem.platform === 'Tokopedia' ? 'bg-green-500' : heroItem.platform === 'Lazada' ? 'bg-blue-600' : 'bg-slate-800'}`}>{heroItem.platform}</span>
+                    </div>
+                    <div className="text-2xl font-black text-blue-600">Rp {heroPrice.toLocaleString('id-ID')}</div>
+                  </div>
+                  <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors shadow-lg">
+                    <ArrowUpRight size={24} />
+                  </div>
                 </div>
-                <button className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors shadow-lg">
-                  <ArrowUpRight size={24} />
-                </button>
-              </div>
-              
-              {/* Floating Platform comparisons */}
-              <div className="absolute -left-12 bottom-12 bg-white rounded-xl shadow-xl p-3 border border-slate-100 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="text-xs font-bold text-slate-400 mb-1">Di Shopee</div>
-                <div className="text-sm font-black text-slate-800">Rp 5.200.000</div>
-              </div>
-              <div className="absolute -right-8 top-1/2 bg-white rounded-xl shadow-xl p-3 border border-slate-100 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                <div className="text-xs font-bold text-slate-400 mb-1">Di Tokopedia</div>
-                <div className="text-sm font-black text-blue-600">Rp 4.999.000</div>
-              </div>
-            </div>
+                
+                {/* Floating Platform comparisons */}
+                <div className="absolute -left-12 bottom-12 bg-white rounded-xl shadow-xl p-3 border border-slate-100 animate-bounce" style={{ animationDuration: '3s' }}>
+                  <div className="text-xs font-bold text-slate-400 mb-1">Di Shopee</div>
+                  <div className="text-sm font-black text-slate-800">Rp {Math.round(heroPrice * 1.05).toLocaleString('id-ID')}</div>
+                </div>
+                <div className="absolute -right-8 top-1/2 bg-white rounded-xl shadow-xl p-3 border border-slate-100 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                  <div className="text-xs font-bold text-slate-400 mb-1">Di {heroItem.platform === 'Lazada' ? 'Tokopedia' : 'Lazada'}</div>
+                  <div className="text-sm font-black text-blue-600">Rp {Math.round(heroPrice * 1.08).toLocaleString('id-ID')}</div>
+                </div>
+              </a>
+            )}
           </div>
         </div>
 
