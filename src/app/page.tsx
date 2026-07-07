@@ -221,9 +221,9 @@ export default function Home() {
                 <p className="text-sm font-medium text-slate-500">Berakhir dalam <span className="text-rose-500 font-bold">02:45:12</span></p>
               </div>
             </div>
-            <button onClick={() => alert('Promo Flash Sale khusus Ramadhan akan segera hadir!')} className="hidden sm:flex items-center gap-2 text-sm font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 rounded-full transition-colors">
+            <Link href="/cari?q=promo" className="hidden sm:flex items-center gap-2 text-sm font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-4 py-2 rounded-full transition-colors">
               Lihat Promo Lainnya <ArrowRight size={16} />
-            </button>
+            </Link>
           </div>
 
           <div className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0">

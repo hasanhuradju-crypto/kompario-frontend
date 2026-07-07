@@ -47,12 +47,12 @@ export default function Navbar() {
 
         {/* Right Links */}
         <div className="flex items-center gap-5 flex-shrink-0">
-          <button onClick={() => alert('Sistem Trending sedang dibangun. Harap bersabar!')} className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+          <Link href="/cari?q=trending" className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
             <TrendingUp size={16} /> Trending
-          </button>
-          <button onClick={() => alert('Halaman Flash Sale akan segera diluncurkan!')} className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-rose-500 hover:text-rose-600 transition-colors">
+          </Link>
+          <Link href="/cari?q=flash sale" className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-rose-500 hover:text-rose-600 transition-colors">
             <Zap size={16} /> Flash Sale
-          </button>
+          </Link>
           
           {isLoggedIn ? (
             <div className="hidden sm:flex items-center gap-4">
