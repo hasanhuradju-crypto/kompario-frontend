@@ -51,6 +51,7 @@ export default function Footer() {
               <Link href="/komunitas" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Forum Komunitas</Link>
               <Link href="/kontak" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Hubungi Kami</Link>
               <Link href="/privacy" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Kebijakan Privasi</Link>
+              <Link href="/terms" className="text-slate-400 hover:text-blue-400 text-sm font-medium transition-colors">Syarat & Ketentuan</Link>
             </div>
           </div>
 
