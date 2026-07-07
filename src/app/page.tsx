@@ -42,14 +42,14 @@ export default function Home() {
     const basePrice = item.price;
     const p1 = item.platform;
     const p2 = (p1 === 'Tokopedia' ? 'Shopee' : 'Tokopedia') as string;
-    const p3 = (p1 === 'Lazada' ? 'Shopee' : 'Lazada') as string;
+    const p3 = (p1 === 'Lazada' ? 'Blibli' : 'Lazada') as string;
 
-    const p1Color = p1 === 'Tokopedia' ? 'text-green-600' : p1 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
-    const p1Bg = p1 === 'Tokopedia' ? 'bg-green-50' : p1 === 'Shopee' ? 'bg-orange-50' : 'bg-blue-50';
-    const p1Border = p1 === 'Tokopedia' ? 'border-green-200' : p1 === 'Shopee' ? 'border-orange-200' : 'border-blue-200';
+    const p1Color = p1 === 'Tokopedia' ? 'text-green-600' : p1 === 'Shopee' ? 'text-orange-600' : p1 === 'Blibli' ? 'text-sky-500' : 'text-blue-700';
+    const p1Bg = p1 === 'Tokopedia' ? 'bg-green-50' : p1 === 'Shopee' ? 'bg-orange-50' : p1 === 'Blibli' ? 'bg-sky-50' : 'bg-blue-50';
+    const p1Border = p1 === 'Tokopedia' ? 'border-green-200' : p1 === 'Shopee' ? 'border-orange-200' : p1 === 'Blibli' ? 'border-sky-200' : 'border-blue-200';
 
-    const p2Color = p2 === 'Tokopedia' ? 'text-green-600' : p2 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
-    const p3Color = p3 === 'Tokopedia' ? 'text-green-600' : p3 === 'Shopee' ? 'text-orange-600' : 'text-blue-700';
+    const p2Color = p2 === 'Tokopedia' ? 'text-green-600' : p2 === 'Shopee' ? 'text-orange-600' : p2 === 'Blibli' ? 'text-sky-500' : 'text-blue-700';
+    const p3Color = p3 === 'Tokopedia' ? 'text-green-600' : p3 === 'Shopee' ? 'text-orange-600' : p3 === 'Blibli' ? 'text-sky-500' : 'text-blue-700';
 
     return {
       name: item.name,
@@ -89,15 +89,14 @@ export default function Home() {
               Engine Pencari Harga Cerdas
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 leading-[1.1] mb-6">
-              Satu Kali Cari,<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">
-                Empat Platform.
+            <h1 className="text-6xl md:text-7xl font-black text-slate-800 tracking-tight leading-tight mb-6">
+              Satu Kali Cari, <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Lima Platform.
               </span>
             </h1>
-            
-            <p className="text-lg text-slate-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Bandingin harga secara instan dari Tokopedia, Shopee, Lazada & TikTok Shop. Analisis riwayat harga, baca ringkasan ulasan, dan temukan diskon terbaik.
+            <p className="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
+              Bandingkan harga dari Tokopedia, Shopee, Lazada, TikTok Shop, & Blibli secara instan. Temukan penawaran terbaik dalam hitungan detik.
             </p>
             
             <div className="max-w-lg mx-auto lg:mx-0 relative group">
@@ -115,15 +114,16 @@ export default function Home() {
                 </button>
               </form>
             </div>
-            
-            <div className="mt-8 flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500 font-medium">
-              <span>Mendukung:</span>
-              <div className="flex gap-2">
-                <span className="px-3 py-1 bg-white rounded-md shadow-sm border border-slate-100">Tokopedia</span>
-                <span className="px-3 py-1 bg-white rounded-md shadow-sm border border-slate-100">Shopee</span>
-                <span className="px-3 py-1 bg-white rounded-md shadow-sm border border-slate-100">Lazada</span>
+                        <div className="flex items-center gap-3 mt-8 justify-center lg:justify-start">
+                <span className="text-sm font-semibold text-slate-500">Mendukung:</span>
+                <div className="flex gap-2">
+                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Tokopedia</span>
+                  <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-bold">Shopee</span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">Lazada</span>
+                  <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">TikTok</span>
+                  <span className="px-3 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-bold">Blibli</span>
+                </div>
               </div>
-            </div>
           </div>
 
           {/* Right Floating Product Card */}
@@ -159,7 +159,7 @@ export default function Home() {
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200/50">
                   <div>
                     <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                      Harga Termurah <span className={`text-[9px] text-white px-1.5 py-0.5 rounded font-bold ${heroItem.platform === 'Tokopedia' ? 'bg-green-500' : heroItem.platform === 'Lazada' ? 'bg-blue-600' : 'bg-slate-800'}`}>{heroItem.platform}</span>
+                      Harga Termurah <span className={`text-[9px] text-white px-1.5 py-0.5 rounded font-bold ${heroItem.platform === 'Tokopedia' ? 'bg-green-500' : heroItem.platform === 'Lazada' ? 'bg-blue-600' : heroItem.platform === 'Blibli' ? 'bg-sky-500' : 'bg-slate-800'}`}>{heroItem.platform}</span>
                     </div>
                     <div className="text-2xl font-black text-blue-600">Rp {heroPrice.toLocaleString('id-ID')}</div>
                   </div>

@@ -37,11 +37,12 @@ function SearchResults() {
   // Helper for badge color
   const getBadgeClass = (platform: string) => {
     const p = platform.toLowerCase();
-    if (p.includes('tokopedia')) return 'bg-green-500';
-    if (p.includes('shopee')) return 'bg-orange-500';
-    if (p.includes('lazada')) return 'bg-blue-600';
-    if (p.includes('tiktok')) return 'bg-black';
-    return 'bg-slate-500';
+    if (p.includes('tokopedia')) return 'bg-green-100 text-green-700';
+    if (p.includes('shopee')) return 'bg-orange-100 text-orange-700';
+    if (p.includes('lazada')) return 'bg-blue-100 text-blue-700';
+    if (p.includes('tiktok')) return 'bg-black text-white';
+    if (p.includes('blibli')) return 'bg-sky-500 text-white';
+    return 'bg-slate-100 text-slate-700';
   };
 
   return (
@@ -80,9 +81,18 @@ function SearchResults() {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 size={48} className="text-blue-500 animate-spin mb-4" />
-            <p className="text-slate-500 font-medium animate-pulse">Menarik data dari Tokopedia, Shopee, Lazada & TikTok...</p>
+          <div className="w-full max-w-md bg-white rounded-2xl p-8 shadow-xl text-center space-y-6 mx-auto">
+            <div className="relative w-24 h-24 mx-auto">
+              <div className="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+              <div className="absolute inset-0 flex items-center justify-center text-blue-600">
+                <Search size={32} className="animate-pulse" />
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">Mencari Harga Terbaik...</h3>
+              <p className="text-slate-500">Menganalisis Tokopedia, Shopee, Lazada, TikTok & Blibli secara *real-time*.</p>
+            </div>
           </div>
         )}
 
@@ -104,7 +114,7 @@ function SearchResults() {
                   ) : (
                     <span className="text-slate-400 text-sm font-medium">Gambar</span>
                   )}
-                  <div className={`absolute top-2 left-2 text-[9px] text-white font-bold px-2 py-0.5 rounded-md ${getBadgeClass(item.platform)} shadow-sm z-10`}>
+                  <div className={`absolute top-2 left-2 text-[9px] font-bold px-2 py-0.5 rounded-md ${getBadgeClass(item.platform)} shadow-sm z-10`}>
                     {item.platform}
                   </div>
                   {item.original_price > item.price && (
