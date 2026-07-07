@@ -32,6 +32,9 @@ export default function Home() {
   // Split live data into Flash Sale and Terbaru sections
   const flashSaleItems = liveData.slice(0, 6);
   const terbaruItems = liveData.slice(6, 12);
+  
+  // Sort by sold for Trending section
+  const trendingItems = [...liveData].sort((a, b) => b.sold - a.sold).slice(0, 6);
 
   return (
     <div className="relative min-h-screen pt-32 pb-20 overflow-hidden">
@@ -373,47 +376,65 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {[
-              { id: 1, platform: 'Tokopedia', badge: 'bg-green-500 text-white', name: 'Apple iPhone 15 Pro Max 256GB', views: '2.5M+', trend: '+140%', color: 'from-green-50 to-emerald-100/50' },
-              { id: 2, platform: 'TikTok', badge: 'bg-black text-white', name: 'Originote Ceramide Barrier Moisturizer', views: '1.8M+', trend: '+210%', color: 'from-slate-50 to-slate-200/50' },
-              { id: 3, platform: 'Shopee', badge: 'bg-orange-500 text-white', name: 'Erigo T-Shirt Oversize Pria', views: '1.2M+', trend: '+85%', color: 'from-orange-50 to-red-100/50' },
-              { id: 4, platform: 'Lazada', badge: 'bg-blue-600 text-white', name: 'Dyson Airwrap Multi-Styler', views: '950K+', trend: '+60%', color: 'from-blue-50 to-indigo-100/50' },
-              { id: 5, platform: 'TikTok', badge: 'bg-black text-white', name: 'TWS Lenovo Thinkplus XT62', views: '880K+', trend: '+300%', color: 'from-slate-50 to-slate-200/50' },
-              { id: 6, platform: 'Tokopedia', badge: 'bg-green-500 text-white', name: 'Logitech G Pro X Superlight', views: '750K+', trend: '+45%', color: 'from-green-50 to-emerald-100/50' },
-            ].map((item, i) => (
-              <Link key={item.id} href={`/produk/dummy_trend_${item.id}`} className={`glass rounded-[1.5rem] p-4 bg-gradient-to-br ${item.color} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex items-center gap-4 border border-white/60 relative overflow-hidden`}>
-                
-                {/* Ranking Watermark */}
-                <div className="absolute -right-4 -bottom-6 text-[100px] font-black text-slate-900/5 group-hover:text-slate-900/10 transition-colors pointer-events-none">
-                  #{i + 1}
-                </div>
+            {isLoading ? (
+              // Loading Skeleton
+              [1, 2, 3, 4, 5, 6].map((item) => (
+                <div key={item} className="h-[120px] glass bg-slate-200/50 animate-pulse rounded-[1.5rem]"></div>
+              ))
+            ) : trendingItems.length > 0 ? (
+              trendingItems.map((item, i) => {
+                const colors = [
+                  'from-green-50 to-emerald-100/50',
+                  'from-slate-50 to-slate-200/50',
+                  'from-orange-50 to-red-100/50',
+                  'from-blue-50 to-indigo-100/50',
+                  'from-purple-50 to-fuchsia-100/50',
+                  'from-rose-50 to-pink-100/50'
+                ];
+                const bgGradient = colors[i % colors.length];
 
-                <div className="w-20 h-20 bg-white rounded-xl flex-shrink-0 flex items-center justify-center shadow-sm relative z-10 overflow-hidden">
-                  <img src={`https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=150&sig=${item.id}`} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
-                </div>
-                
-                <div className="flex-1 relative z-10">
-                  <div className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-md ${item.badge} shadow-sm mb-1.5`}>
-                    {item.platform}
-                  </div>
-                  <h3 className="text-sm font-bold text-slate-800 leading-tight line-clamp-2 mb-2 group-hover:text-purple-600 transition-colors">
-                    {item.name}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500">Pencarian</span>
-                      <span className="text-xs font-black text-slate-700">{item.views}</span>
+                return (
+                  <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className={`glass rounded-[1.5rem] p-4 bg-gradient-to-br ${bgGradient} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex items-center gap-4 border border-white/60 relative overflow-hidden`}>
+                    
+                    {/* Ranking Watermark */}
+                    <div className="absolute -right-4 -bottom-6 text-[100px] font-black text-slate-900/5 group-hover:text-slate-900/10 transition-colors pointer-events-none">
+                      #{i + 1}
                     </div>
-                    <div className="flex flex-col text-right">
-                      <span className="text-[10px] text-slate-500">Lonjakan</span>
-                      <span className="text-xs font-black text-purple-600 flex items-center gap-0.5">
-                        <TrendingUp size={12} /> {item.trend}
-                      </span>
+
+                    <div className="w-20 h-20 bg-white rounded-xl flex-shrink-0 flex items-center justify-center shadow-sm relative z-10 overflow-hidden">
+                      <img src={item.image_url} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                    
+                    <div className="flex-1 relative z-10">
+                      <div className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-md ${
+                        item.platform === 'Tokopedia' ? 'bg-green-500 text-white' : 
+                        item.platform === 'Shopee' ? 'bg-orange-500 text-white' : 
+                        item.platform === 'Lazada' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-white'
+                      } shadow-sm mb-1.5`}>
+                        {item.platform}
+                      </div>
+                      <h3 className="text-sm font-bold text-slate-800 leading-tight line-clamp-2 mb-2 group-hover:text-purple-600 transition-colors">
+                        {item.name}
+                      </h3>
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-slate-500">Terjual</span>
+                          <span className="text-xs font-black text-slate-700">{item.sold}</span>
+                        </div>
+                        <div className="flex flex-col text-right">
+                          <span className="text-[10px] text-slate-500">Lonjakan</span>
+                          <span className="text-xs font-black text-purple-600 flex items-center gap-0.5">
+                            <TrendingUp size={12} /> +{(Math.random() * 200 + 50).toFixed(0)}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                );
+              })
+            ) : (
+              <div className="col-span-full text-center text-slate-500 text-sm py-8">Tidak ada data trending.</div>
+            )}
           </div>
         </div>
 
