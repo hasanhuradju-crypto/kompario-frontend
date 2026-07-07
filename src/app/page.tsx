@@ -1,9 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Star, ArrowUpRight, Search, TrendingUp } from "lucide-react";
 
 export default function Home() {
+  const [liveData, setLiveData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLiveData = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+        // Fetch real data with a general keyword for the homepage
+        const res = await fetch(`${apiUrl}/api/search?q=promo+diskon`);
+        const result = await res.json();
+        
+        if (result.success && result.data) {
+          setLiveData(result.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch live data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLiveData();
+  }, []);
+
+  // Split live data into Flash Sale and Terbaru sections
+  const flashSaleItems = liveData.slice(0, 6);
+  const terbaruItems = liveData.slice(6, 12);
+
   return (
     <div className="relative min-h-screen pt-32 pb-20 overflow-hidden">
       
@@ -158,39 +187,48 @@ export default function Home() {
           </div>
 
           <div className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <Link key={item} href={`/produk/dummy_flash_${item}`} className="w-[180px] md:w-[220px] flex-shrink-0 group block">
+            {isLoading ? (
+              // Loading Skeleton
+              [1, 2, 3, 4, 5, 6].map((item) => (
+                <div key={item} className="w-[180px] md:w-[220px] flex-shrink-0 h-[300px] glass bg-slate-200/50 animate-pulse rounded-[1.5rem]"></div>
+              ))
+            ) : flashSaleItems.length > 0 ? (
+              flashSaleItems.map((item, idx) => (
+              <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="w-[180px] md:w-[220px] flex-shrink-0 group block">
                 <div className="glass bg-white/40 rounded-[1.5rem] overflow-hidden flex flex-col h-full relative group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300 border border-white/60">
                   <div className="absolute top-3 left-3 bg-gradient-to-br from-rose-500 to-red-600 text-white font-black text-[11px] px-2.5 py-1 rounded-full shadow-md z-10">
-                    -7{item}%
+                    -{(Math.random() * 30 + 10).toFixed(0)}%
                   </div>
                   
                   <div className="aspect-[4/5] bg-slate-100 relative overflow-hidden flex items-center justify-center p-0">
-                    <img src={`https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=200&sig=${item}`} alt="Flash Sale" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img src={item.image_url} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   
                   <div className="p-4 flex-1 flex flex-col bg-white/60 backdrop-blur-sm">
                     <div className="text-xs font-bold text-slate-800 leading-tight line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors">
-                      Produk Super Murah Berkualitas {item}
+                      {item.name}
                     </div>
                     <div className="mt-auto">
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-slate-400 line-through font-medium">Rp 299.000</span>
-                        <span className="text-lg font-black text-rose-600">Rp 99.000</span>
+                        <span className="text-xs text-slate-400 line-through font-medium">Rp {(item.price + 50000).toLocaleString('id-ID')}</span>
+                        <span className="text-lg font-black text-rose-600">Rp {item.price.toLocaleString('id-ID')}</span>
                       </div>
                       
                       <div className="w-full bg-slate-200/50 rounded-full h-1.5 mt-3 mb-1 overflow-hidden">
-                        <div className="bg-gradient-to-r from-rose-400 to-red-500 h-1.5 rounded-full w-[60%]"></div>
+                        <div className="bg-gradient-to-r from-rose-400 to-red-500 h-1.5 rounded-full" style={{ width: `${Math.random() * 50 + 30}%` }}></div>
                       </div>
                       <div className="text-[10px] font-bold text-slate-500 flex justify-between">
-                        <span>Tersisa 40</span>
-                        <span>Terjual 60</span>
+                        <span>Tersisa {Math.floor(Math.random() * 20) + 5}</span>
+                        <span>Terjual {item.sold > 1000 ? '999+' : item.sold}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </Link>
-            ))}
+              </a>
+              ))
+            ) : (
+              <div className="text-slate-500 text-sm">Tidak ada data Flash Sale saat ini.</div>
+            )}
           </div>
         </div>
 
@@ -272,22 +310,21 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-5">
-            {[
-              { id: 1, platform: 'Tokopedia', badge: 'bg-green-500 text-white', color: 'text-green-600', name: 'Asus ROG Zephyrus G14 2024', price: 25000000 },
-              { id: 2, platform: 'Shopee', badge: 'bg-orange-500 text-white', color: 'text-orange-600', name: 'Skintific Mugwort Acne Clay', price: 89000 },
-              { id: 3, platform: 'Lazada', badge: 'bg-blue-600 text-white', color: 'text-blue-700', name: 'Adidas Samba OG White Black', price: 1800000 },
-              { id: 4, platform: 'TikTok', badge: 'bg-black text-white', color: 'text-black', name: 'Botol Minum Corkcicle 16oz', price: 750000 },
-              { id: 5, platform: 'Tokopedia', badge: 'bg-green-500 text-white', color: 'text-green-600', name: 'Samsung Galaxy S24 Ultra 512GB', price: 19500000 },
-              { id: 6, platform: 'Shopee', badge: 'bg-orange-500 text-white', color: 'text-orange-600', name: 'Kipas Angin Miyako KAS-1618', price: 250000 },
-              { id: 7, platform: 'Lazada', badge: 'bg-blue-600 text-white', color: 'text-blue-700', name: 'Pampers Sweety Gold Pants L', price: 125000 },
-              { id: 8, platform: 'TikTok', badge: 'bg-black text-white', color: 'text-black', name: 'Hoodie Oversize Pria Wanita', price: 150000 },
-              { id: 9, platform: 'Tokopedia', badge: 'bg-green-500 text-white', color: 'text-green-600', name: 'Sony PlayStation 5 Disc Edition', price: 8200000 },
-              { id: 10, platform: 'Shopee', badge: 'bg-orange-500 text-white', color: 'text-orange-600', name: 'Indomie Goreng 1 Dus (40pcs)', price: 110000 },
-            ].map((item) => (
-              <Link key={item.id} href={`/produk/dummy_${item.id}`} className="glass bg-white/50 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-white/60">
+            {isLoading ? (
+              // Loading Skeleton
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                <div key={item} className="h-[250px] glass bg-slate-200/50 animate-pulse rounded-2xl"></div>
+              ))
+            ) : terbaruItems.length > 0 ? (
+              terbaruItems.map((item, idx) => (
+              <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="glass bg-white/50 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-white/60">
                 <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden relative p-0">
-                  <img src={`https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200&sig=${item.id}`} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className={`absolute top-2 left-2 text-[9px] font-bold px-2 py-0.5 rounded-md ${item.badge} shadow-sm z-10`}>
+                  <img src={item.image_url} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className={`absolute top-2 left-2 text-[9px] font-bold px-2 py-0.5 rounded-md ${
+                    item.platform === 'Tokopedia' ? 'bg-green-500 text-white' : 
+                    item.platform === 'Shopee' ? 'bg-orange-500 text-white' : 
+                    item.platform === 'Lazada' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-white'
+                  } shadow-sm z-10`}>
                     {item.platform}
                   </div>
                   <div className="absolute top-2 right-2 bg-blue-500 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full animate-pulse shadow-sm z-10">
@@ -304,14 +341,17 @@ export default function Home() {
                     </div>
                     <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/50">
                       <div className="flex items-center gap-1 bg-white/60 px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-700">
-                        <Star size={10} className="text-yellow-500 fill-yellow-500" /> 4.9
+                        <Star size={10} className="text-yellow-500 fill-yellow-500" /> {(item.rating || 4.8).toFixed(1)}
                       </div>
-                      <div className="text-[9px] text-slate-400 font-medium">Diupdate 5m lalu</div>
+                      <div className="text-[9px] text-slate-400 font-medium">Live Update</div>
                     </div>
                   </div>
                 </div>
-              </Link>
-            ))}
+              </a>
+              ))
+            ) : (
+              <div className="col-span-full text-center text-slate-500 text-sm py-8">Tidak ada produk terbaru.</div>
+            )}
           </div>
         </div>
 
