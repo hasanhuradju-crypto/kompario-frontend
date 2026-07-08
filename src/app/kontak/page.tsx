@@ -91,6 +91,16 @@ export default function KontakPage() {
                     <p className="text-lg font-bold text-white drop-shadow-sm">support@kompario.id</p>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
+                    <Phone className="text-rose-300" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-300 mb-1">Telepon / WhatsApp</h3>
+                    <p className="text-lg font-bold text-white drop-shadow-sm">089697252993</p>
+                  </div>
+                </div>
               </div>
             </div>
 
