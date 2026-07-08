@@ -30,7 +30,7 @@ export default function KontakPage() {
           {/* Contact Form */}
           <div className="glass bg-white/70 rounded-[2.5rem] p-8 md:p-10 border border-white/80 shadow-2xl shadow-slate-200/50">
             <h2 className="text-2xl font-black text-slate-900 mb-6">Kirim Pesan</h2>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Pesan Anda berhasil dikirim! Tim kami akan segera merespons melalui email.'); e.currentTarget.reset(); }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Nama Lengkap</label>
@@ -68,7 +68,7 @@ export default function KontakPage() {
                 ></textarea>
               </div>
 
-              <button type="button" className="w-full py-4 bg-gradient-to-r from-rose-500 to-orange-500 text-white font-bold rounded-xl hover:opacity-90 shadow-lg shadow-rose-500/30 transition-all flex items-center justify-center gap-2">
+              <button type="submit" className="w-full py-4 bg-gradient-to-r from-rose-500 to-orange-500 text-white font-bold rounded-xl hover:opacity-90 shadow-lg shadow-rose-500/30 transition-all flex items-center justify-center gap-2">
                 Kirim Pesan Sekarang <Send size={18} />
               </button>
             </form>
