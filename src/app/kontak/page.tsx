@@ -88,32 +88,7 @@ export default function KontakPage() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-300 mb-1">Email</h3>
-                    <p className="text-lg font-bold text-white drop-shadow-sm">hello@kompario.id</p>
                     <p className="text-lg font-bold text-white drop-shadow-sm">support@kompario.id</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
-                    <Phone className="text-rose-300" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-300 mb-1">Telepon / WhatsApp</h3>
-                    <p className="text-lg font-bold text-white drop-shadow-sm">+62 811 2233 4455</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
-                    <MapPin className="text-rose-300" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-300 mb-1">Alamat Kantor</h3>
-                    <p className="text-lg font-bold text-white leading-relaxed drop-shadow-sm">
-                      Gedung Inovasi Lt. 4<br />
-                      Jl. Sudirman No. 123, Senayan<br />
-                      Jakarta Selatan, 12190
-                    </p>
                   </div>
                 </div>
               </div>
