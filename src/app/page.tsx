@@ -36,8 +36,8 @@ export default function Home() {
   // Sort by sold for Trending section
   const trendingItems = [...liveData].sort((a, b) => b.sold - a.sold).slice(0, 6);
 
-  // Use items for Live Comparison (take 2 items from the end or just slice 12-14)
-  const comparisonItems = liveData.slice(12, 14).map(item => {
+  // Use items for Live Comparison (take 3 items from the end or just slice 12-15)
+  const comparisonItems = liveData.slice(12, 15).map(item => {
     // Generate simulated competitor prices based on the real price
     const basePrice = item.price;
     const p1 = item.platform;
@@ -290,10 +290,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {isLoading ? (
                // Loading Skeleton
-               [1, 2].map((item) => (
+               [1, 2, 3].map((item) => (
                  <div key={item} className="h-[180px] glass bg-slate-200/50 animate-pulse rounded-3xl"></div>
                ))
             ) : comparisonItems.length > 0 ? (
